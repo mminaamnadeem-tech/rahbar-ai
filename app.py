@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 from datetime import date
 
@@ -885,14 +885,15 @@ if st.session_state.asked:
 # 10. PRODUCT STATUS / FOOTER
 # =========================================================
 
-st.markdown(
-    """
-    <div class="footer">
-        🧭 <b>Rahbar AI</b> · Student Admission Guidance
-        <br>
-        Built for the Rahbar AI Hackathon
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-```
+      st.markdown(
+        f"""
+        <div class="trace">
+            <div>$ rahbar-agent --run</div>
+            <br>
+            {trace_html}
+            <br>
+            <div>$ status: COMPLETE</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
