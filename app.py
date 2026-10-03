@@ -849,51 +849,33 @@ if st.session_state.asked:
         "verified against the connected official documents before "
         "treating a result as final."
     )
-
-
-    # =====================================================
-    # 10. AGENT TRACE
-    # =====================================================
-
-    st.markdown(
-        '<div class="section-title">09 — Agent Trace</div>',
-        unsafe_allow_html=True
-    )
-
-    trace_html = ""
-
-    for item in st.session_state.trace:
-        trace_html += (
-            f'<div><span class="trace-green">{item}</span></div>'
-        )
-
-    st.markdown(
-        f"""
-        <div class="trace">
-            <div>$ rahbar-agent --run</div>
-            <br>
-            {trace_html}
-            <br>
-            <div>$ status: COMPLETE</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
 # =========================================================
-# 10. PRODUCT STATUS / FOOTER
-# =========================================================
+# 10. AGENT TRACE
+# ========================================================= 
 
-      st.markdown(
-        f"""
-        <div class="trace">
-            <div>$ rahbar-agent --run</div>
-            <br>
-            {trace_html}
-            <br>
-            <div>$ status: COMPLETE</div>
-        </div>
-        """,
-        unsafe_allow_html=True
+st.markdown(
+    '<div class="section-title">09 — Agent Trace</div>',
+    unsafe_allow_html=True
+)
+
+trace_html = ""
+
+for item in st.session_state.trace:
+    trace_html += (
+        f'<div><span class="trace-green">{item}</span></div>'
     )
+
+st.markdown(
+    f"""
+    <div class="trace">
+        <div>$ rahbar-agent --run</div>
+        <br>
+        {trace_html}
+        <br>
+        <div>$ status: COMPLETE</div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+  
