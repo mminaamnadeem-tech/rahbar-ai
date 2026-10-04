@@ -13,95 +13,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-
+# =========================================================
 # CUSTOM CSS
 # =========================================================
-/* =========================
-   RAHBAR AI BUBBLE ANIMATIONS
-   ========================= */
 
-.hero {
-    position: relative;
-    overflow: hidden;
-}
-
-/* Floating bubbles */
-.hero::before,
-.hero::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: bubbleFloat 5s ease-in-out infinite;
-}
-
-.hero::before {
-    width: 90px;
-    height: 90px;
-    top: 20px;
-    right: 8%;
-    background: rgba(96, 165, 250, 0.18);
-    animation-delay: 0s;
-}
-
-.hero::after {
-    width: 55px;
-    height: 55px;
-    bottom: 20px;
-    left: 8%;
-    background: rgba(129, 140, 248, 0.18);
-    animation-delay: 1.5s;
-}
-
-@keyframes bubbleFloat {
-    0% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: translateY(-18px) scale(1.08);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.5;
-    }
-}
-
-/* Rahbar AI heading animation */
-.hero h1 {
-    animation: rahbarTitle 1s ease both;
-}
-
-@keyframes rahbarTitle {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Hero subtitle */
-.hero p {
-    animation: rahbarSubtitle 1s ease 0.2s both;
-}
-
-@keyframes rahbarSubtitle {
-    0% {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
 st.markdown("""
 <style>
 
@@ -136,10 +51,6 @@ header {
     padding-bottom: 3rem;
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
-
 .hero {
     position: relative;
     overflow: hidden;
@@ -154,7 +65,7 @@ header {
     color: white;
     margin-bottom: 2rem;
     box-shadow: 0 20px 50px rgba(15,23,42,0.20);
-    animation: fadeUp 0.7s ease both;
+    animation: fadeUp 0.7s ease;
 }
 
 .hero h1 {
@@ -170,28 +81,18 @@ header {
     max-width: 750px;
 }
 
-/* =========================================================
-   SECTION TITLES
-   ========================================================= */
-
 .section-title {
     font-size: 1.35rem;
     font-weight: 800;
     color: #0f172a;
     margin-top: 1.8rem;
     margin-bottom: 0.8rem;
-    animation: slideIn 0.6s ease both;
 }
 
 .section-subtitle {
     color: #64748b;
     margin-bottom: 1rem;
-    animation: fadeUp 0.5s ease both;
 }
-
-/* =========================================================
-   CARDS
-   ========================================================= */
 
 .card {
     background: rgba(255,255,255,0.90);
@@ -200,17 +101,12 @@ header {
     padding: 1.35rem;
     box-shadow: 0 8px 30px rgba(15,23,42,0.06);
     transition: all 0.25s ease;
-    animation: fadeScale 0.55s ease both;
 }
 
 .card:hover {
     transform: translateY(-3px);
     box-shadow: 0 14px 35px rgba(15,23,42,0.10);
 }
-
-/* =========================================================
-   BUTTON
-   ========================================================= */
 
 .stButton > button {
     border: none;
@@ -229,15 +125,11 @@ header {
     box-shadow: 0 12px 28px rgba(37,99,235,0.35);
 }
 
-/* =========================================================
-   DECISION
-   ========================================================= */
-
 .decision {
     padding: 1.6rem;
     border-radius: 22px;
     margin-bottom: 1rem;
-    animation: popIn 0.55s ease both;
+    animation: popIn 0.55s ease;
 }
 
 .decision h2 {
@@ -253,34 +145,16 @@ header {
 .yes {
     background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
     border: 1px solid #34d399;
-    color: #0f172a;
-}
-
-.yes h2,
-.yes p {
-    color: #0f172a;
 }
 
 .no {
     background: linear-gradient(135deg, #fef2f2, #fff1f2);
     border: 1px solid #fb7185;
-    color: #0f172a;
-}
-
-.no h2,
-.no p {
-    color: #0f172a;
 }
 
 .conditional {
     background: linear-gradient(135deg, #fffbeb, #fefce8);
     border: 1px solid #fbbf24;
-    color: #0f172a;
-}
-
-.conditional h2,
-.conditional p {
-    color: #0f172a;
 }
 
 .pending {
@@ -297,10 +171,6 @@ header {
     color: #1e293b;
 }
 
-/* =========================================================
-   METRICS
-   ========================================================= */
-
 .metric-card {
     text-align: center;
     background: white;
@@ -308,7 +178,6 @@ header {
     border-radius: 20px;
     padding: 1.3rem;
     box-shadow: 0 8px 25px rgba(15,23,42,0.06);
-    animation: fadeScale 0.55s ease both;
 }
 
 .metric-number {
@@ -322,10 +191,6 @@ header {
     font-size: 0.9rem;
     margin-top: 0.2rem;
 }
-
-/* =========================================================
-   EVIDENCE
-   ========================================================= */
 
 .evidence-grid {
     display: grid;
@@ -341,7 +206,6 @@ header {
     padding: 1.2rem 1.4rem;
     box-shadow: 0 7px 24px rgba(15,23,42,0.06);
     transition: all 0.2s ease;
-    animation: slideIn 0.5s ease both;
 }
 
 .evidence-card:hover {
@@ -355,13 +219,8 @@ header {
 }
 
 .evidence-value {
-    color: #334155;
+    color: #475569;
 }
-
-/* =========================================================
-   ACTIONS
-   ========================================================= */
-
 .action {
     background: white;
     border: 1px solid #e2e8f0;
@@ -370,7 +229,6 @@ header {
     margin-bottom: 0.7rem;
     transition: all 0.2s ease;
     color: #0f172a;
-    animation: slideIn 0.5s ease both;
 }
 
 .action:hover {
@@ -391,10 +249,6 @@ header {
     margin-right: 10px;
 }
 
-/* =========================================================
-   TRACE
-   ========================================================= */
-
 .trace {
     background: #0b1120;
     color: #cbd5e1;
@@ -403,7 +257,6 @@ header {
     font-family: monospace;
     line-height: 1.9;
     box-shadow: 0 10px 30px rgba(15,23,42,0.15);
-    animation: fadeScale 0.6s ease both;
 }
 
 .trace-step {
@@ -413,10 +266,6 @@ header {
 .trace-muted {
     color: #94a3b8;
 }
-
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
 
 @keyframes fadeUp {
     from {
@@ -440,34 +289,7 @@ header {
     }
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeScale {
-    from {
-        opacity: 0;
-        transform: scale(0.94);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
 @media (max-width: 800px) {
-
     .evidence-grid {
         grid-template-columns: 1fr;
     }
@@ -475,7 +297,6 @@ header {
     .hero h1 {
         font-size: 2.2rem;
     }
-
 }
 
 </style>
@@ -511,7 +332,6 @@ def contains_year(text):
 
 
 def is_future_or_unavailable_question(text):
-
     q = text.lower()
 
     current_year = date.today().year
@@ -553,7 +373,6 @@ def is_future_or_unavailable_question(text):
 
 
 def is_calculation_question(text):
-
     q = text.lower()
 
     calculation_words = [
@@ -576,7 +395,6 @@ def is_calculation_question(text):
 
 
 def is_deadline_question(text):
-
     q = text.lower()
 
     deadline_words = [
@@ -597,12 +415,10 @@ def is_deadline_question(text):
 # =========================================================
 
 def build_trace(query):
-
     q = query.lower()
 
     # Deadline-only question
     if is_deadline_question(q) and not is_calculation_question(q):
-
         return [
             "check_deadline",
             "decision_generated"
@@ -618,14 +434,9 @@ def build_trace(query):
     ]
 
 
-# =========================================================
-# DECISION RENDER
-# =========================================================
-
 def render_decision(decision, reason):
 
     if decision == "YES":
-
         st.markdown(
             f"""
             <div class="decision yes">
@@ -637,7 +448,6 @@ def render_decision(decision, reason):
         )
 
     elif decision == "NO":
-
         st.markdown(
             f"""
             <div class="decision no">
@@ -649,7 +459,6 @@ def render_decision(decision, reason):
         )
 
     elif decision == "CONDITIONAL":
-
         st.markdown(
             f"""
             <div class="decision conditional">
@@ -661,7 +470,6 @@ def render_decision(decision, reason):
         )
 
     else:
-
         st.markdown(
             f"""
             <div class="decision pending">
@@ -693,7 +501,7 @@ st.markdown(
 
 
 # =========================================================
-# 01 — STUDENT PROFILE
+# 02 — STUDENT PROFILE
 # =========================================================
 
 st.markdown(
@@ -709,14 +517,12 @@ st.markdown(
 row1_col1, row1_col2, row1_col3 = st.columns(3)
 
 with row1_col1:
-
     university = st.selectbox(
         "University",
         ["NUST", "FAST", "COMSATS"]
     )
 
 with row1_col2:
-
     program = st.selectbox(
         "Program",
         [
@@ -730,17 +536,14 @@ with row1_col2:
     )
 
 with row1_col3:
-
     campus = st.text_input(
         "Campus (Optional)",
         placeholder="e.g. Islamabad"
     )
 
-
 row2_col1, row2_col2, row2_col3 = st.columns(3)
 
 with row2_col1:
-
     cycle = st.text_input(
         "Admission Cycle",
         value="2026",
@@ -748,7 +551,6 @@ with row2_col1:
     )
 
 with row2_col2:
-
     part2_status = st.radio(
         "Part-II Result Status",
         ["Pending", "Declared", "Not applicable"],
@@ -756,7 +558,6 @@ with row2_col2:
     )
 
 with row2_col3:
-
     ssc_marks = st.number_input(
         "SSC Marks (%)",
         min_value=0.0,
@@ -765,11 +566,9 @@ with row2_col3:
         step=0.1
     )
 
-
 row3_col1, row3_col2 = st.columns(2)
 
 with row3_col1:
-
     hssc_marks = st.number_input(
         "HSSC Marks (%)",
         min_value=0.0,
@@ -779,7 +578,6 @@ with row3_col1:
     )
 
 with row3_col2:
-
     hssc_group = st.selectbox(
         "HSSC Group",
         [
@@ -792,7 +590,6 @@ with row3_col2:
             "Other"
         ]
     )
-
 
 entry_test = st.number_input(
     "Entry Test Score (%)",
@@ -844,25 +641,25 @@ if ask:
     if not query.strip():
 
         st.warning("Please enter your question first.")
-
         st.session_state.asked = False
 
     else:
 
         st.session_state.asked = True
 
-        # Show calculation only for calculation questions
+        # Show calculation ONLY when requested
         st.session_state.show_calculation = is_calculation_question(
             query
         )
 
-        # Build actual displayed trace
+        # Build agent trace
         st.session_state.trace_steps = build_trace(query)
 
         # =================================================
         # DECISION LOGIC
         # =================================================
 
+        # Future / unavailable / unverified = NOT_YET_VERIFIED
         if is_future_or_unavailable_question(query):
 
             st.session_state.decision = "NOT_YET_VERIFIED"
@@ -876,8 +673,8 @@ if ask:
 
         else:
 
-            # Do not fabricate admission decisions
-            # without verified backend evidence.
+            # No verified backend evidence connected yet.
+            # Never fabricate YES / NO / CONDITIONAL.
 
             st.session_state.decision = "NOT_YET_VERIFIED"
 
@@ -912,7 +709,7 @@ if st.session_state.asked:
 
     # =====================================================
     # 05 — AGGREGATE CALCULATION
-    # ONLY FOR CALCULATION QUESTIONS
+    # ONLY SHOWN FOR CALCULATION QUESTIONS
     # =====================================================
 
     if st.session_state.show_calculation:
@@ -936,7 +733,6 @@ if st.session_state.asked:
         c1, c2, c3 = st.columns(3)
 
         with c1:
-
             st.markdown(
                 f"""
                 <div class="metric-card">
@@ -952,7 +748,6 @@ if st.session_state.asked:
             )
 
         with c2:
-
             st.markdown(
                 f"""
                 <div class="metric-card">
@@ -968,7 +763,6 @@ if st.session_state.asked:
             )
 
         with c3:
-
             st.markdown(
                 f"""
                 <div class="metric-card">
@@ -986,7 +780,6 @@ if st.session_state.asked:
         st.markdown(
             f"""
             <div class="card">
-
                 <b>Formula</b>
 
                 <p>
@@ -1012,7 +805,6 @@ if st.session_state.asked:
                     Calculation is displayed because the student
                     asked a marks/aggregate-related question.
                 </span>
-
             </div>
             """,
             unsafe_allow_html=True
@@ -1076,7 +868,7 @@ if st.session_state.asked:
 
 
     # =====================================================
-    # 07 — RECOMMENDED ACTIONS
+    # 07 — ACTIONS
     # =====================================================
 
     st.markdown(
