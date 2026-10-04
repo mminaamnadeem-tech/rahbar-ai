@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 from datetime import date, datetime
 import re
@@ -1043,4 +1043,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-```
+
