@@ -221,7 +221,6 @@ header {
 .evidence-value {
     color: #475569;
 }
-
 .action {
     background: white;
     border: 1px solid #e2e8f0;
@@ -229,6 +228,7 @@ header {
     padding: 1rem 1.2rem;
     margin-bottom: 0.7rem;
     transition: all 0.2s ease;
+    color: #0f172a;
 }
 
 .action:hover {
