@@ -160,6 +160,15 @@ header {
 .pending {
     background: linear-gradient(135deg, #eff6ff, #eef2ff);
     border: 1px solid #60a5fa;
+    color: #0f172a;
+}
+
+.pending h2 {
+    color: #0f172a;
+}
+
+.pending p {
+    color: #1e293b;
 }
 
 .metric-card {
