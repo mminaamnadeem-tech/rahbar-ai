@@ -1,6 +1,7 @@
-
+```python
 import streamlit as st
-from datetime import date
+from datetime import date, datetime
+import re
 
 # =========================================================
 # PAGE CONFIG
@@ -33,7 +34,6 @@ html, body, [class*="css"] {
         #f8fafc;
 }
 
-/* Hide Streamlit branding */
 #MainMenu {
     visibility: hidden;
 }
@@ -46,16 +46,13 @@ header {
     visibility: hidden;
 }
 
-/* Main container */
 .block-container {
     max-width: 1250px;
     padding-top: 2rem;
     padding-bottom: 3rem;
 }
 
-/* ========================================================
-   HERO
-======================================================== */
+/* HERO */
 
 .hero {
     position: relative;
@@ -74,52 +71,18 @@ header {
     animation: fadeUp 0.7s ease;
 }
 
-.hero:before,
-.hero:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.07);
-    animation: float 6s ease-in-out infinite;
-}
-
-.hero:before {
-    width: 240px;
-    height: 240px;
-    right: -70px;
-    top: -100px;
-}
-
-.hero:after {
-    width: 150px;
-    height: 150px;
-    right: 180px;
-    bottom: -100px;
-    animation-delay: 1.5s;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-
 .hero h1 {
     font-size: 3rem;
     font-weight: 800;
     margin: 0;
-    letter-spacing: -1px;
 }
 
 .hero p {
     font-size: 1.05rem;
     color: #dbeafe;
     margin-top: 0.7rem;
-    max-width: 700px;
+    max-width: 750px;
 }
-
-/* ========================================================
-   SECTION TITLES
-======================================================== */
 
 .section-title {
     font-size: 1.35rem;
@@ -134,18 +97,15 @@ header {
     margin-bottom: 1rem;
 }
 
-/* ========================================================
-   CARDS
-======================================================== */
+/* CARDS */
 
 .card {
-    background: rgba(255,255,255,0.88);
+    background: rgba(255,255,255,0.90);
     border: 1px solid #e2e8f0;
     border-radius: 20px;
     padding: 1.35rem;
     box-shadow: 0 8px 30px rgba(15,23,42,0.06);
     transition: all 0.25s ease;
-    animation: fadeUp 0.6s ease;
 }
 
 .card:hover {
@@ -153,18 +113,7 @@ header {
     box-shadow: 0 14px 35px rgba(15,23,42,0.10);
 }
 
-/* ========================================================
-   PROFILE LABEL
-======================================================== */
-
-.profile-label {
-    font-weight: 700;
-    color: #334155;
-}
-
-/* ========================================================
-   BUTTON
-======================================================== */
+/* BUTTON */
 
 .stButton > button {
     border: none;
@@ -183,9 +132,7 @@ header {
     box-shadow: 0 12px 28px rgba(37,99,235,0.35);
 }
 
-/* ========================================================
-   DECISION CARDS
-======================================================== */
+/* DECISION */
 
 .decision {
     padding: 1.6rem;
@@ -224,9 +171,7 @@ header {
     border: 1px solid #60a5fa;
 }
 
-/* ========================================================
-   METRIC CARDS
-======================================================== */
+/* METRICS */
 
 .metric-card {
     text-align: center;
@@ -235,7 +180,6 @@ header {
     border-radius: 20px;
     padding: 1.3rem;
     box-shadow: 0 8px 25px rgba(15,23,42,0.06);
-    animation: fadeUp 0.6s ease;
 }
 
 .metric-number {
@@ -250,32 +194,39 @@ header {
     margin-top: 0.2rem;
 }
 
-/* ========================================================
-   EVIDENCE
-======================================================== */
+/* EVIDENCE */
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
 
 .evidence-card {
     background: white;
+    border: 1px solid #e2e8f0;
     border-left: 5px solid #2563eb;
     border-radius: 16px;
     padding: 1.2rem 1.4rem;
     box-shadow: 0 7px 24px rgba(15,23,42,0.06);
-    animation: fadeUp 0.6s ease;
+    transition: all 0.2s ease;
+}
+
+.evidence-card:hover {
+    transform: translateY(-2px);
 }
 
 .evidence-title {
     font-weight: 800;
     color: #0f172a;
+    margin-bottom: 5px;
 }
 
 .evidence-value {
     color: #475569;
-    margin-bottom: 0.7rem;
 }
 
-/* ========================================================
-   ACTIONS
-======================================================== */
+/* ACTIONS */
 
 .action {
     background: white;
@@ -284,7 +235,6 @@ header {
     padding: 1rem 1.2rem;
     margin-bottom: 0.7rem;
     transition: all 0.2s ease;
-    animation: fadeUp 0.5s ease;
 }
 
 .action:hover {
@@ -305,9 +255,7 @@ header {
     margin-right: 10px;
 }
 
-/* ========================================================
-   TRACE
-======================================================== */
+/* TRACE */
 
 .trace {
     background: #0b1120;
@@ -315,29 +263,17 @@ header {
     border-radius: 18px;
     padding: 1.4rem;
     font-family: monospace;
-    line-height: 1.8;
+    line-height: 1.9;
     box-shadow: 0 10px 30px rgba(15,23,42,0.15);
-    animation: fadeUp 0.6s ease;
 }
 
-.trace-green {
+.trace-step {
     color: #4ade80;
 }
 
-/* ========================================================
-   FOOTER
-======================================================== */
-
-.footer {
-    text-align: center;
-    color: #64748b;
-    padding-top: 2rem;
-    font-size: 0.85rem;
+.trace-muted {
+    color: #94a3b8;
 }
-
-/* ========================================================
-   ANIMATIONS
-======================================================== */
 
 @keyframes fadeUp {
     from {
@@ -361,12 +297,13 @@ header {
     }
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
+@media (max-width: 800px) {
+    .evidence-grid {
+        grid-template-columns: 1fr;
     }
-    50% {
-        transform: translateY(20px);
+
+    .hero h1 {
+        font-size: 2.2rem;
     }
 }
 
@@ -387,30 +324,230 @@ if "decision" not in st.session_state:
 if "reason" not in st.session_state:
     st.session_state.reason = ""
 
-if "trace" not in st.session_state:
-    st.session_state.trace = []
+if "trace_steps" not in st.session_state:
+    st.session_state.trace_steps = []
+
+if "show_calculation" not in st.session_state:
+    st.session_state.show_calculation = False
 
 
 # =========================================================
-# 1. HEADER
+# HELPER FUNCTIONS
 # =========================================================
 
-st.markdown("""
-<div class="hero">
-    <div class="hero-content">
+def contains_year(text):
+    """Return years found in a question."""
+    return [int(x) for x in re.findall(r"\b(20\d{2})\b", text)]
+
+
+def is_future_or_unavailable_question(text):
+    """
+    Detect questions where the requested information is future,
+    unavailable, or explicitly unverified.
+    """
+
+    q = text.lower()
+
+    current_year = date.today().year
+    years = contains_year(q)
+
+    future_year = any(year > current_year for year in years)
+
+    future_words = [
+        "future",
+        "next year",
+        "upcoming",
+        "2027",
+        "2028",
+        "2029",
+        "2030",
+        "closing merit prediction",
+        "predict",
+        "prediction",
+        "expected merit",
+        "expected closing merit"
+    ]
+
+    unavailable_words = [
+        "latest",
+        "current closing merit",
+        "closing merit",
+        "cutoff",
+        "deadline",
+        "merit",
+        "eligibility"
+    ]
+
+    # Future data is always unverified.
+    if future_year:
+        return True
+
+    if any(word in q for word in future_words):
+        return True
+
+    # The prototype has no verified backend evidence yet.
+    # Therefore admission-policy questions remain unverified.
+    if any(word in q for word in unavailable_words):
+        return True
+
+    return False
+
+
+def is_calculation_question(text):
+    """
+    Only show aggregate calculation when the question is
+    actually asking for marks / aggregate / merit calculation.
+    """
+
+    q = text.lower()
+
+    calculation_words = [
+        "aggregate",
+        "calculate aggregate",
+        "calculate my aggregate",
+        "calculate my merit",
+        "merit calculation",
+        "marks",
+        "percentage",
+        "calculate",
+        "how much aggregate",
+        "what is my aggregate",
+        "what will be my aggregate",
+        "aggregate score",
+        "merit score"
+    ]
+
+    return any(word in q for word in calculation_words)
+
+
+def is_deadline_question(text):
+    q = text.lower()
+
+    deadline_words = [
+        "deadline",
+        "last date",
+        "last date to apply",
+        "application date",
+        "closing date",
+        "when should i apply",
+        "when is the deadline"
+    ]
+
+    return any(word in q for word in deadline_words)
+
+
+def build_trace(query):
+    """
+    Build ONLY the steps that actually ran.
+
+    Deadline-only question:
+        check_deadline
+        decision_generated
+
+    Full question:
+        search_universities
+        calculate_aggregate (only when calculation requested)
+        check_deadline (only when deadline requested)
+        decision_generated
+        agent_stopped
+    """
+
+    q = query.lower()
+
+    steps = []
+
+    deadline_only = is_deadline_question(q)
+
+    if deadline_only:
+        steps.append("check_deadline")
+        steps.append("decision_generated")
+        return steps
+
+    # Full question starts with university search.
+    steps.append("search_universities")
+
+    # Only run aggregate tool when calculation is requested.
+    if is_calculation_question(q):
+        steps.append("calculate_aggregate")
+
+    # Deadline tool only runs if deadline is actually requested.
+    if is_deadline_question(q):
+        steps.append("check_deadline")
+
+    steps.append("decision_generated")
+    steps.append("agent_stopped")
+
+    return steps
+
+
+def render_decision(decision, reason):
+
+    if decision == "YES":
+        st.markdown(
+            f"""
+            <div class="decision yes">
+                <h2>✅ YES</h2>
+                <p>{reason}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    elif decision == "NO":
+        st.markdown(
+            f"""
+            <div class="decision no">
+                <h2>❌ NO</h2>
+                <p>{reason}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    elif decision == "CONDITIONAL":
+        st.markdown(
+            f"""
+            <div class="decision conditional">
+                <h2>⚠️ CONDITIONAL</h2>
+                <p>{reason}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    else:
+        st.markdown(
+            f"""
+            <div class="decision pending">
+                <h2>🔎 NOT_YET_VERIFIED</h2>
+                <p>{reason}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+# =========================================================
+# 01 — HEADER
+# =========================================================
+
+st.markdown(
+    """
+    <div class="hero">
         <h1>🧭 Rahbar AI</h1>
         <p>
-            Your intelligent admission guidance assistant.
-            Enter your academic profile, ask a question, and get
-            a clear, evidence-based response.
+            Intelligent university admission guidance.
+            Enter your academic profile and ask Rahbar about
+            universities, programmes, merit, deadlines and eligibility.
         </p>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 
 # =========================================================
-# 2. STUDENT PROFILE
+# 02 — STUDENT PROFILE
 # =========================================================
 
 st.markdown(
@@ -419,13 +556,54 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="section-subtitle">Tell Rahbar about your academic background.</div>',
+    '<div class="section-subtitle">Required information for the admission agent.</div>',
     unsafe_allow_html=True
 )
 
-col1, col2, col3, col4 = st.columns(4)
+row1_col1, row1_col2, row1_col3 = st.columns(3)
 
-with col1:
+with row1_col1:
+    university = st.selectbox(
+        "University",
+        ["NUST", "FAST", "COMSATS"]
+    )
+
+with row1_col2:
+    program = st.selectbox(
+        "Program",
+        [
+            "BS Computer Science",
+            "BS Software Engineering",
+            "BS Artificial Intelligence",
+            "BS Data Science",
+            "BS Electrical Engineering",
+            "Other"
+        ]
+    )
+
+with row1_col3:
+    campus = st.text_input(
+        "Campus (Optional)",
+        placeholder="e.g. Islamabad"
+    )
+
+row2_col1, row2_col2, row2_col3 = st.columns(3)
+
+with row2_col1:
+    cycle = st.text_input(
+        "Admission Cycle",
+        value="2026",
+        placeholder="e.g. 2026"
+    )
+
+with row2_col2:
+    part2_status = st.radio(
+        "Part-II Result Status",
+        ["Pending", "Declared", "Not applicable"],
+        horizontal=True
+    )
+
+with row2_col3:
     ssc_marks = st.number_input(
         "SSC Marks (%)",
         min_value=0.0,
@@ -434,7 +612,9 @@ with col1:
         step=0.1
     )
 
-with col2:
+row3_col1, row3_col2 = st.columns(2)
+
+with row3_col1:
     hssc_marks = st.number_input(
         "HSSC Marks (%)",
         min_value=0.0,
@@ -443,7 +623,7 @@ with col2:
         step=0.1
     )
 
-with col3:
+with row3_col2:
     hssc_group = st.selectbox(
         "HSSC Group",
         [
@@ -457,18 +637,17 @@ with col3:
         ]
     )
 
-with col4:
-    entry_test = st.number_input(
-        "Entry Test (%)",
-        min_value=0.0,
-        max_value=100.0,
-        value=70.0,
-        step=0.1
-    )
+entry_test = st.number_input(
+    "Entry Test Score (%)",
+    min_value=0.0,
+    max_value=100.0,
+    value=70.0,
+    step=0.1
+)
 
 
 # =========================================================
-# 3. QUERY
+# 03 — QUERY
 # =========================================================
 
 st.markdown(
@@ -479,7 +658,7 @@ st.markdown(
 query = st.text_area(
     "Question",
     placeholder=(
-        "Example: Can I get admission in NUST BSCS with my current marks?"
+        "Example: What is the 2028 NUST BSCS closing merit?"
     ),
     height=120,
     label_visibility="collapsed"
@@ -487,7 +666,7 @@ query = st.text_area(
 
 
 # =========================================================
-# 4. ASK BUTTON
+# 04 — ASK BUTTON
 # =========================================================
 
 st.markdown(
@@ -496,13 +675,13 @@ st.markdown(
 )
 
 ask = st.button(
-    "🚀  Ask Rahbar AI",
+    "🚀 Ask Rahbar AI",
     use_container_width=True
 )
 
 
 # =========================================================
-# PROCESS QUERY
+# PROCESS QUESTION
 # =========================================================
 
 if ask:
@@ -511,86 +690,61 @@ if ask:
 
         st.warning("Please enter your question first.")
 
+        st.session_state.asked = False
+
     else:
 
         st.session_state.asked = True
 
-        # Clear previous trace
-        st.session_state.trace = []
+        # -----------------------------------------------
+        # Determine whether calculation is needed
+        # -----------------------------------------------
 
-        # Agent trace
-        st.session_state.trace.append(
-            "✓ Received student query"
+        st.session_state.show_calculation = is_calculation_question(
+            query
         )
 
-        st.session_state.trace.append(
-            "✓ Read academic profile"
-        )
+        # -----------------------------------------------
+        # Build REALISTIC trace
+        # -----------------------------------------------
 
-        st.session_state.trace.append(
-            "✓ Identified admission context"
-        )
+        st.session_state.trace_steps = build_trace(query)
 
-        # -------------------------------------------------
-        # DEMO AGENT LOGIC
-        # -------------------------------------------------
+        # -----------------------------------------------
+        # Decision logic
+        #
+        # IMPORTANT:
+        # We do NOT say YES/NO/CONDITIONAL simply because
+        # "NUST" appears in the question.
+        #
+        # Without verified document evidence, admission
+        # answers remain NOT_YET_VERIFIED.
+        # -----------------------------------------------
 
-        q = query.lower()
-
-        if "nust" in q or "net" in q:
-
-            st.session_state.trace.append(
-                "✓ Searching university admission rules"
-            )
-
-            if (
-                entry_test >= 70
-                and ssc_marks >= 60
-                and hssc_marks >= 60
-            ):
-
-                st.session_state.decision = "CONDITIONAL"
-
-                st.session_state.reason = (
-                    "Your entered academic profile meets the basic "
-                    "conditions used by this prototype. However, "
-                    "final eligibility depends on the current official "
-                    "admission requirements and programme-specific rules."
-                )
-
-            else:
-
-                st.session_state.decision = "NO"
-
-                st.session_state.reason = (
-                    "Based on the values entered, the profile does not "
-                    "meet the basic thresholds used by this prototype."
-                )
-
-            st.session_state.trace.append(
-                "✓ Calculated admission aggregate"
-            )
-
-            st.session_state.trace.append(
-                "✓ Generated preliminary decision"
-            )
-
-        else:
+        if is_future_or_unavailable_question(query):
 
             st.session_state.decision = "NOT_YET_VERIFIED"
 
             st.session_state.reason = (
-                "Rahbar could not verify this question against the "
-                "currently connected admission documents."
+                "Rahbar does not have verified evidence for the "
+                "requested information yet. The question asks for "
+                "data that is future, unavailable, or requires "
+                "verification from the university's official "
+                "admission source."
             )
 
-            st.session_state.trace.append(
-                "⚠ No verified document evidence found"
-            )
+        else:
 
-        st.session_state.trace.append(
-            "✓ Prepared response for student"
-        )
+            # Current prototype has no verified document agent
+            # connected yet. Therefore do not fabricate a YES/NO.
+            st.session_state.decision = "NOT_YET_VERIFIED"
+
+            st.session_state.reason = (
+                "Rahbar has not yet verified this answer against "
+                "the connected university evidence. A final YES, "
+                "NO, or CONDITIONAL decision will only be shown "
+                "when verified evidence is available."
+            )
 
 
 # =========================================================
@@ -600,7 +754,7 @@ if ask:
 if st.session_state.asked:
 
     # =====================================================
-    # 5. DECISION
+    # 04 — DECISION
     # =====================================================
 
     st.markdown(
@@ -608,153 +762,125 @@ if st.session_state.asked:
         unsafe_allow_html=True
     )
 
-    decision = st.session_state.decision
-    reason = st.session_state.reason
-
-    if decision == "YES":
-
-        st.markdown(
-            f"""
-            <div class="decision yes">
-                <h2>✅ YES</h2>
-                <p>{reason}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    elif decision == "NO":
-
-        st.markdown(
-            f"""
-            <div class="decision no">
-                <h2>❌ NO</h2>
-                <p>{reason}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    elif decision == "CONDITIONAL":
-
-        st.markdown(
-            f"""
-            <div class="decision conditional">
-                <h2>⚠️ CONDITIONAL</h2>
-                <p>{reason}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    else:
-
-        st.markdown(
-            f"""
-            <div class="decision pending">
-                <h2>🔎 NOT YET VERIFIED</h2>
-                <p>{reason}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    render_decision(
+        st.session_state.decision,
+        st.session_state.reason
+    )
 
 
     # =====================================================
-    # 6. CALCULATION
+    # 05 — AGGREGATE CALCULATION
+    # ONLY SHOWN FOR CALCULATION QUESTIONS
     # =====================================================
 
-    st.markdown(
-        '<div class="section-title">05 — Aggregate Calculation</div>',
-        unsafe_allow_html=True
-    )
-
-    # Prototype formula:
-    # NET 75% + SSC 10% + HSSC 15%
-
-    aggregate = (
-        (entry_test * 0.75)
-        + (ssc_marks * 0.10)
-        + (hssc_marks * 0.15)
-    )
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
+    if st.session_state.show_calculation:
 
         st.markdown(
-            f"""
-            <div class="metric-card">
-                <div class="metric-number">{aggregate:.2f}%</div>
-                <div class="metric-label">Overall Aggregate</div>
-            </div>
-            """,
+            '<div class="section-title">05 — Aggregate Calculation</div>',
             unsafe_allow_html=True
         )
 
-    with c2:
+        # Prototype NUST-style formula.
+        # Actual university formula must come from verified data.
 
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <div class="metric-number">{entry_test * 0.75:.2f}%</div>
-                <div class="metric-label">Entry Test Contribution</div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        aggregate = (
+            (entry_test * 0.75)
+            + (ssc_marks * 0.10)
+            + (hssc_marks * 0.15)
         )
 
-    with c3:
-
-        academic = (
+        academic_contribution = (
             (ssc_marks * 0.10)
             + (hssc_marks * 0.15)
         )
 
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            st.markdown(
+                f"""
+                <div class="metric-card">
+                    <div class="metric-number">
+                        {aggregate:.2f}%
+                    </div>
+                    <div class="metric-label">
+                        Overall Aggregate
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        with c2:
+            st.markdown(
+                f"""
+                <div class="metric-card">
+                    <div class="metric-number">
+                        {entry_test * 0.75:.2f}%
+                    </div>
+                    <div class="metric-label">
+                        Entry Test Contribution
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        with c3:
+            st.markdown(
+                f"""
+                <div class="metric-card">
+                    <div class="metric-number">
+                        {academic_contribution:.2f}%
+                    </div>
+                    <div class="metric-label">
+                        Academic Contribution
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-number">{academic:.2f}%</div>
-                <div class="metric-label">Academic Contribution</div>
+            <div class="card">
+
+                <b>Formula</b>
+
+                <p>
+                    Aggregate =
+                    (Entry Test × 75%) +
+                    (SSC × 10%) +
+                    (HSSC × 15%)
+                </p>
+
+                <b>Calculation</b>
+
+                <p>
+                    ({entry_test:.2f} × 0.75)
+                    +
+                    ({ssc_marks:.2f} × 0.10)
+                    +
+                    ({hssc_marks:.2f} × 0.15)
+                    =
+                    <b>{aggregate:.2f}%</b>
+                </p>
+
+                <span style="color:#64748b;">
+                    Calculation is displayed because the student
+                    asked a marks/aggregate-related question.
+                </span>
+
             </div>
             """,
             unsafe_allow_html=True
         )
 
-    st.markdown(
-        f"""
-        <div class="card" style="margin-top: 1rem;">
-
-        <b>Formula</b>
-
-        <p>
-        Aggregate = (Entry Test × 75%)
-        + (SSC × 10%)
-        + (HSSC × 15%)
-        </p>
-
-        <b>Calculation</b>
-
-        <p>
-        ({entry_test:.2f} × 0.75)
-        + ({ssc_marks:.2f} × 0.10)
-        + ({hssc_marks:.2f} × 0.15)
-        = <b>{aggregate:.2f}%</b>
-        </p>
-
-        <span class="small-muted">
-        Prototype calculation — actual university-specific formulas
-        should come from verified admission documents.
-        </span>
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
 
     # =====================================================
-    # 7. EVIDENCE
+    # 06 — EVIDENCE
+    #
+    # Uses st.html so raw <div> tags cannot appear as text.
     # =====================================================
 
     st.markdown(
@@ -762,50 +888,55 @@ if st.session_state.asked:
         unsafe_allow_html=True
     )
 
-    st.markdown(
+    verification_date = date.today().strftime("%d %B %Y")
+
+    st.html(
         f"""
-        <div class="evidence-card">
+        <div class="evidence-grid">
 
-            <div class="evidence-title">
-                📄 Source Document
+            <div class="evidence-card">
+                <div class="evidence-title">
+                    📄 Source Document
+                </div>
+                <div class="evidence-value">
+                    University admission evidence
+                </div>
             </div>
 
-            <div class="evidence-value">
-                University Admission Policy / Connected Document
+            <div class="evidence-card">
+                <div class="evidence-title">
+                    📖 Page
+                </div>
+                <div class="evidence-value">
+                    Pending verified document lookup
+                </div>
             </div>
 
-            <div class="evidence-title">
-                📖 Page
+            <div class="evidence-card">
+                <div class="evidence-title">
+                    🔗 Source URL
+                </div>
+                <div class="evidence-value">
+                    Pending verified source lookup
+                </div>
             </div>
 
-            <div class="evidence-value">
-                Pending document-agent verification
-            </div>
-
-            <div class="evidence-title">
-                🔗 Source URL
-            </div>
-
-            <div class="evidence-value">
-                Pending connection
-            </div>
-
-            <div class="evidence-title">
-                📅 Verification Date
-            </div>
-
-            <div class="evidence-value">
-                {date.today().strftime("%d %B %Y")}
+            <div class="evidence-card">
+                <div class="evidence-title">
+                    📅 Verification Date
+                </div>
+                <div class="evidence-value">
+                    {verification_date}
+                </div>
             </div>
 
         </div>
-        """,
-        unsafe_allow_html=True
+        """
     )
 
 
     # =====================================================
-    # 8. ACTIONS
+    # 07 — ACTIONS
     # =====================================================
 
     st.markdown(
@@ -814,10 +945,10 @@ if st.session_state.asked:
     )
 
     actions = [
-        "Verify the current admission requirements from the official university source.",
-        "Confirm that your HSSC group is eligible for the selected programme.",
-        "Check the current entry-test requirements and application deadline.",
-        "Keep your academic documents ready for the application process."
+        "Verify the answer against the university's official admission source.",
+        "Confirm the selected programme and campus requirements.",
+        "Check the relevant admission deadline.",
+        "Keep your academic documents ready for the application."
     ]
 
     for i, action in enumerate(actions, start=1):
@@ -834,7 +965,7 @@ if st.session_state.asked:
 
 
     # =====================================================
-    # 9. LIMITATIONS
+    # 08 — LIMITATIONS
     # =====================================================
 
     st.markdown(
@@ -843,39 +974,73 @@ if st.session_state.asked:
     )
 
     st.info(
-        "⚠️ This UI prototype is not yet connected to the final "
-        "university-document retrieval agent. Admission rules, "
-        "deadlines, merit requirements and source pages should be "
-        "verified against the connected official documents before "
-        "treating a result as final."
+        "Rahbar will only return a final YES, NO or CONDITIONAL "
+        "decision when verified evidence is available. "
+        "Unverified, future or unavailable information is marked "
+        "NOT_YET_VERIFIED."
     )
+
+
+    # =====================================================
+    # 09 — AGENT TRACE
+    # =====================================================
+
+    st.markdown(
+        '<div class="section-title">09 — Agent Trace</div>',
+        unsafe_allow_html=True
+    )
+
+    trace_html = ""
+
+    for index, step in enumerate(
+        st.session_state.trace_steps,
+        start=1
+    ):
+
+        trace_html += f"""
+        <div class="trace-step">
+            Step {index} — {step}
+        </div>
+        """
+
+    st.html(
+        f"""
+        <div class="trace">
+
+            <div class="trace-muted">
+                $ rahbar-agent --run
+            </div>
+
+            <br>
+
+            {trace_html}
+
+            <br>
+
+            <div class="trace-muted">
+                $ status: COMPLETE
+            </div>
+
+        </div>
+        """
+    )
+
+
 # =========================================================
-# 10. AGENT TRACE
-# ========================================================= 
+# FOOTER
+# =========================================================
 
 st.markdown(
-    '<div class="section-title">09 — Agent Trace</div>',
-    unsafe_allow_html=True
-)
-
-trace_html = ""
-
-for item in st.session_state.trace:
-    trace_html += (
-        f'<div><span class="trace-green">{item}</span></div>'
-    )
-
-st.markdown(
-    f"""
-    <div class="trace">
-        <div>$ rahbar-agent --run</div>
-        <br>
-        {trace_html}
-        <br>
-        <div>$ status: COMPLETE</div>
+    """
+    <div style="
+        text-align:center;
+        color:#64748b;
+        padding:2rem 0;
+        font-size:0.85rem;
+    ">
+        🧭 <b>Rahbar AI</b> · Student Admission Guidance
     </div>
     """,
     unsafe_allow_html=True
 )
-
-  
+```
