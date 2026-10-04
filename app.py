@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# =========================================================
+
 # CUSTOM CSS
 # =========================================================
 /* =========================
@@ -102,7 +102,6 @@ st.set_page_config(
         opacity: 1;
         transform: translateY(0);
     }
-}
 st.markdown("""
 <style>
 
