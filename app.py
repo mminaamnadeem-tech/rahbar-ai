@@ -16,7 +16,93 @@ st.set_page_config(
 # =========================================================
 # CUSTOM CSS
 # =========================================================
+/* =========================
+   RAHBAR AI BUBBLE ANIMATIONS
+   ========================= */
 
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floating bubbles */
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: bubbleFloat 5s ease-in-out infinite;
+}
+
+.hero::before {
+    width: 90px;
+    height: 90px;
+    top: 20px;
+    right: 8%;
+    background: rgba(96, 165, 250, 0.18);
+    animation-delay: 0s;
+}
+
+.hero::after {
+    width: 55px;
+    height: 55px;
+    bottom: 20px;
+    left: 8%;
+    background: rgba(129, 140, 248, 0.18);
+    animation-delay: 1.5s;
+}
+
+@keyframes bubbleFloat {
+    0% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(-18px) scale(1.08);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.5;
+    }
+}
+
+/* Rahbar AI heading animation */
+.hero h1 {
+    animation: rahbarTitle 1s ease both;
+}
+
+@keyframes rahbarTitle {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Hero subtitle */
+.hero p {
+    animation: rahbarSubtitle 1s ease 0.2s both;
+}
+
+@keyframes rahbarSubtitle {
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 st.markdown("""
 <style>
 
